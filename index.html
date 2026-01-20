@@ -298,7 +298,7 @@
             }
             const amount = gender === "Nam" ? 50000 : 45000;
             const momoAccount = "0123456789"; // Thay bằng số MOMO thật
-            const qrUrl = `/momo.jpg?amount=${amount}&addInfo=${encodeURIComponent(name)}`;
+            const qrUrl = `momo.jpg?amount=${amount}&addInfo=${encodeURIComponent(name)}`;
             popupContent.innerHTML = `
         <div class="note">Quét mã QR bằng MOMO để chuyển khoản<br><b>${amount.toLocaleString()} VND</b></div>
         <img src="${qrUrl}" alt="QR MOMO" />
