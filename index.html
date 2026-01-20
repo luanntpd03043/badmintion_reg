@@ -1,0 +1,325 @@
+<!-- user.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký chuyển khoản MOMO</title>
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            margin-top: 60px;
+            padding: 32px 24px 24px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            width: 350px;
+            max-width: 90vw;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .gender-group {
+            margin-bottom: 18px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gender-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+            color: #555;
+        }
+
+        button[type="submit"],
+        .popup button {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button[type="submit"]:hover,
+        .popup button:hover {
+            background: #357abd;
+        }
+
+        #message {
+            margin-top: 16px;
+            color: #e74c3c;
+            text-align: center;
+            font-weight: 500;
+            min-height: 24px;
+        }
+
+        /* Popup styles */
+        .popup-bg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background: #fff;
+            padding: 28px 20px 20px 20px;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            text-align: center;
+            max-width: 650px;
+            width: 90vw;
+            position: relative;
+            animation: popupIn 0.25s;
+        }
+
+        @keyframes popupIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup img {
+            width: 180px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .popup .close:hover {
+            color: #e74c3c;
+        }
+
+        .popup .note {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .popup .success {
+            color: #27ae60;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .gender-group {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .gender-radio {
+            position: relative;
+            padding-left: 32px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .gender-radio input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .gender-radio .checkmark {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 20px;
+            background-color: #f0f4f8;
+            border: 2px solid #4a90e2;
+            border-radius: 50%;
+            transition: border-color 0.2s;
+        }
+
+        .gender-radio input[type="radio"]:checked~.checkmark {
+            background-color: #4a90e2;
+            border-color: #357abd;
+        }
+
+        .gender-radio .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .gender-radio input[type="radio"]:checked~.checkmark:after {
+            display: block;
+        }
+
+        .gender-radio .checkmark:after {
+            left: 6px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            content: "";
+            position: absolute;
+        }
+
+        .gender-radio input[type="radio"]:focus~.checkmark {
+            box-shadow: 0 0 0 2px #b3d4fc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>ĐĂNG KÍ VÃNG LAI BADMINTION</h2>
+        <form id="registerForm" autocomplete="off">
+            <label for="name">Tên của bạn</label>
+            <input type="text" name="name" id="name" placeholder="Nhập tên..." required />
+            <div class="gender-group">
+                <label class="gender-radio">
+                    <input type="radio" name="gender" value="Nam" required />
+                    <span class="checkmark"></span>
+                    Nam
+                </label>
+                <label class="gender-radio">
+                    <input type="radio" name="gender" value="Nữ" required />
+                    <span class="checkmark"></span>
+                    Nữ
+                </label>
+            </div>
+            <button type="submit">Gửi đăng ký</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <div class="popup-bg" id="popupBg">
+        <div class="popup" id="popup">
+            <button class="close" id="closePopup">&times;</button>
+            <div id="popupContent"></div>
+        </div>
+    </div>
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcX-4HIOFUNL9Pd_hUPlenQUAHDG-bASIO07UT73fWy8CzGRUmqlC3hnQCV2fVQxXf3g/exec'; // Thay bằng URL Apps Script của bạn
+
+        const popupBg = document.getElementById('popupBg');
+        const popupContent = document.getElementById('popupContent');
+        const closePopupBtn = document.getElementById('closePopup');
+        const messageDiv = document.getElementById('message');
+
+        closePopupBtn.onclick = () => {
+            popupBg.style.display = 'none';
+            popupContent.innerHTML = '';
+        };
+
+        document.getElementById('registerForm').onsubmit = async function (e) {
+            e.preventDefault();
+            messageDiv.innerText = '';
+            const name = e.target.name.value.trim();
+            const gender = e.target.gender.value;
+            if (!name) {
+                messageDiv.innerText = 'Vui lòng nhập tên!';
+                return;
+            }
+            messageDiv.innerText = 'Đang kiểm tra slot...';
+            let data;
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=checkSlot`);
+                data = await res.json();
+            } catch {
+                messageDiv.innerText = 'Lỗi kiểm tra slot, thử lại sau!';
+                return;
+            }
+            if ((gender === "Nam" && data.male >= data.maleLimit) || (gender === "Nữ" && data.female >= data.femaleLimit)) {
+                messageDiv.innerText = 'Đã full slot cho giới tính này!';
+                return;
+            }
+            const amount = gender === "Nam" ? 50000 : 45000;
+            const momoAccount = "0123456789"; // Thay bằng số MOMO thật
+            const qrUrl = `/momo.jpg?amount=${amount}&addInfo=${encodeURIComponent(name)}`;
+            popupContent.innerHTML = `
+        <div class="note">Quét mã QR bằng MOMO để chuyển khoản<br><b>${amount.toLocaleString()} VND</b></div>
+        <img src="${qrUrl}" alt="QR MOMO" />
+        <div style="margin-bottom:10px;">Tên: <b>${name}</b><br>Giới tính: <b>${gender}</b></div>
+        <button id="confirmBtn">Tôi đã chuyển khoản</button>
+      `;
+            popupBg.style.display = 'flex';
+            document.getElementById('confirmBtn').onclick = async function () {
+                popupContent.innerHTML = '<div class="note">Đang ghi nhận...</div>';
+                try {
+                    await fetch(`${SCRIPT_URL}?action=addRow&name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&amount=${amount}`, { method: 'POST' });
+                    popupContent.innerHTML = `<div class="success">Chuyển khoản thành công!<br>Đã ghi nhận.</div>
+            <button onclick="document.getElementById('popupBg').style.display='none'">Đóng</button>`;
+                } catch {
+                    popupContent.innerHTML = `<div class="note" style="color:#e74c3c;">Lỗi ghi nhận, thử lại sau!</div>
+            <button onclick="document.getElementById('popupBg').style.display='none'">Đóng</button>`;
+                }
+            };
+            messageDiv.innerText = '';
+        };
+    </script>
+</body>
+
+</html>

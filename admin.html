@@ -1,0 +1,111 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Quản lý slot</title>
+<style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .admin-container {
+            background: #fff;
+            margin: 60px auto;
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            width: 350px;
+            max-width: 90vw;
+        }
+
+        h2 {
+            text-align: center;
+            color: #e67e22;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: #c97c13;
+        }
+
+        #admin-message {
+            margin-top: 16px;
+            color: #27ae60;
+            text-align: center;
+            font-weight: 500;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h2>Quản lý giới hạn slot</h2>
+    <form id="adminForm">
+      <label for="maleLimit">Số lượng Nam tối đa</label>
+      <input type="number" id="maleLimit" name="maleLimit" min="1" required />
+      <label for="femaleLimit">Số lượng Nữ tối đa</label>
+      <input type="number" id="femaleLimit" name="femaleLimit" min="1" required />
+      <button type="submit">Cập nhật</button>
+    </form>
+    <div id="admin-message"></div>
+  </div>
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcX-4HIOFUNL9Pd_hUPlenQUAHDG-bASIO07UT73fWy8CzGRUmqlC3hnQCV2fVQxXf3g/exec'; // Thay bằng URL Apps Script của bạn
+
+    async function loadConfig() {
+      const res = await fetch(`${SCRIPT_URL}?action=getConfig`);
+      const data = await res.json();
+      document.getElementById('maleLimit').value = data.maleLimit;
+      document.getElementById('femaleLimit').value = data.femaleLimit;
+    }
+    loadConfig();
+
+    document.getElementById('adminForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const maleLimit = document.getElementById('maleLimit').value;
+      const femaleLimit = document.getElementById('femaleLimit').value;
+      const msg = document.getElementById('admin-message');
+      msg.innerText = 'Đang cập nhật...';
+      try {
+        await fetch(`${SCRIPT_URL}?action=setConfig&maleLimit=${maleLimit}&femaleLimit=${femaleLimit}`, {method: 'POST'});
+        msg.innerText = 'Cập nhật thành công!';
+      } catch {
+        msg.innerText = 'Có lỗi xảy ra!';
+      }
+    };
+  </script>
+</body>
+</html>
